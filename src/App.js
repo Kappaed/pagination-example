@@ -1,19 +1,17 @@
-import logo from "./logo.svg";
 import "./App.scss";
+import Container from "./components/UI/Container";
+import tableData from "./mock-data";
+import Item from "./components/Summary/Item";
+import SummaryList from "./components/Summary/SummaryList";
+import Pagination from "./components/Pagination";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div>Testing everything right now please</div>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        ></a>
-      </header>
+      <Container>
+        <SummaryList list={tableData} />
+      </Container>
+      <Pagination />
     </div>
   );
 }

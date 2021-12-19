@@ -1,0 +1,10 @@
+@import "../UI/variables.scss";
+.item {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: $item-height;
+}

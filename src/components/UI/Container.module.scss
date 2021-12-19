@@ -1,0 +1,21 @@
+@import "./variables.scss";
+.container {
+  margin: 50px auto;
+  max-width: 1170px;
+  border-radius: 10px;
+  background: white;
+  padding: 30px 10px;
+
+  & div:nth-child(2n + 3) {
+    border-top: 0px;
+  }
+  & div:nth-child(2n + 3) {
+    background: $item-color;
+  }
+  & div:first-child {
+    background: $item-color;
+  }
+  & div:first-child {
+    background: $item-color;
+  }
+}
