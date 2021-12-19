@@ -1,7 +1,23 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const usePagination = (totalData, perPage, startPage = 0) => {
   const [currPage, setCurrPage] = useState(startPage);
+  const [isForward, setIsForward] = useState(null);
+  const prevPage = useRef(null);
+  useEffect(() => {
+    if (prevPage.current == null) {
+      return;
+    }
+    if (prevPage.current < currPage) {
+      setIsForward(true);
+    } else if (prevPage.current > currPage) {
+      setIsForward(false);
+    } else {
+      return;
+    }
+  }, [currPage]);
+  useEffect(() => (prevPage.current = currPage));
+
   const dataToShow = totalData.slice(
     currPage * perPage,
     currPage * perPage + perPage
@@ -9,9 +25,9 @@ const usePagination = (totalData, perPage, startPage = 0) => {
   const canMoveForwards = totalData.length > currPage * perPage + perPage;
   const canMoveBackwards = currPage * perPage >= perPage;
   const setPageForward = () =>
-    setCurrPage((curr) => (canMoveForwards ? parseInt(curr, 10) + 1 : curr));
+    setCurrPage((curr) => (canMoveForwards ? curr + 1 : curr));
   const setPageBackward = () =>
-    setCurrPage((curr) => (canMoveBackwards ? parseInt(curr, 10) - 1 : curr));
+    setCurrPage((curr) => (canMoveBackwards ? curr - 1 : curr));
 
   const setInputPage = (value) => {
     let intValue = parseInt(value, 10);
@@ -23,6 +39,8 @@ const usePagination = (totalData, perPage, startPage = 0) => {
       setCurrPage(intValue);
     }
   };
+
+  console.log(isForward);
   return {
     currPage,
     dataToShow,
@@ -31,6 +49,7 @@ const usePagination = (totalData, perPage, startPage = 0) => {
     setPageBackward,
     setPageForward,
     setInputPage,
+    isForward,
   };
 };
 
