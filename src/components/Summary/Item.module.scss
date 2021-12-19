@@ -8,3 +8,11 @@
   width: 100%;
   height: $item-height;
 }
+
+.placeholder {
+  display: flex;
+  justify-content: center;
+  background: transparent !important;
+  color: red;
+  font-size: 2rem;
+}

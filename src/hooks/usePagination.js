@@ -9,9 +9,9 @@ const usePagination = (totalData, perPage, startPage = 0) => {
   const canMoveForwards = totalData.length > currPage * perPage + perPage;
   const canMoveBackwards = currPage * perPage >= perPage;
   const setPageForward = () =>
-    setCurrPage((curr) => (canMoveForwards ? curr + 1 : curr));
+    setCurrPage((curr) => (canMoveForwards ? parseInt(curr, 10) + 1 : curr));
   const setPageBackward = () =>
-    setCurrPage((curr) => (canMoveBackwards ? curr - 1 : curr));
+    setCurrPage((curr) => (canMoveBackwards ? parseInt(curr, 10) - 1 : curr));
 
   const setInputPage = (value) => {
     let intValue = parseInt(value, 10);

@@ -27,6 +27,9 @@ function App() {
         backward={{ canMoveBackwards, setPageBackward }}
         onInputChange={setInputPage}
       />
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        pages: {`0 pages to ${tableData.length / 10 - 1}`}
+      </div>
     </div>
   );
 }
