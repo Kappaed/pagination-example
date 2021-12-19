@@ -4,12 +4,19 @@ import tableData from "./mock-data";
 import usePagination from "./hooks/usePagination";
 import SummaryList from "./components/Summary/SummaryList";
 import Pagination from "./components/Pagination";
-import { useRef, useState, useEffect } from "react";
+import { useState } from "react";
 import PagesRow from "./components/Pagination/PagesRow";
+import useShowDirection from "./hooks/useShowDirection";
 function App() {
-  const isMount = useRef(false);
-  const [showDirection, setShowDirection] = useState(false);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const onInputChange = (event) => {
+    const value = event.target.value;
 
+    if (isNaN(parseInt(value, 10))) {
+      return setItemsPerPage("");
+    }
+    setItemsPerPage(value);
+  };
   const {
     currPage,
     dataToShow,
@@ -20,28 +27,12 @@ function App() {
     setInputPage,
     pagesArray,
     isForward,
-  } = usePagination(tableData, 10);
-
-  useEffect(() => {
-    if (!isMount.current) {
-      isMount.current = true;
-      return;
-    }
-    const id = setTimeout(() => {
-      setShowDirection(true);
-    }, 500);
-    return () => clearTimeout(id);
-  }, [currPage]);
-
-  useEffect(() => {
-    const id = setTimeout(() => {
-      setShowDirection(false);
-    }, 600);
-    return () => clearTimeout(id);
-  }, [showDirection]);
+  } = usePagination(tableData, itemsPerPage);
+  const canShow = useShowDirection(currPage);
+  console.log(canShow);
   return (
     <div className="App">
-      <div className={`middle-align my-10 ${showDirection ? "fade-in" : ""}`}>
+      <div className={`hide my-10 ${canShow ? "fade-in" : ""}`}>
         {isForward
           ? "Moved Forward"
           : isForward === false
@@ -58,14 +49,25 @@ function App() {
         onInputChange={setInputPage}
       />
 
-      <div className="middle-align">
-        pages: {`0 pages to ${tableData.length / 10 - 1}`}
+      <div className="fade-in my-10">
+        pages:{" "}
+        {`1 pages to ${Math.ceil(
+          tableData.length / parseInt(itemsPerPage, 10)
+        )}`}
       </div>
       <PagesRow
         onPageClick={setInputPage}
         pages={pagesArray}
         currPage={currPage}
       />
+      <div>
+        <span style={{ marginRight: "5px" }}>Enter items per Page</span>
+        <input
+          className="my-10"
+          onChange={onInputChange}
+          value={itemsPerPage}
+        />
+      </div>
     </div>
   );
 }

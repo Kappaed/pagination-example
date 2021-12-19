@@ -6,9 +6,9 @@ const usePagination = (totalData, perPage, startPage = 1) => {
   const [isForward, setIsForward] = useState(null);
   const prevPage = useRef(null);
   const pagesArray = formPagesArray(
-    Math.ceil(totalData.length / perPage),
+    Math.ceil(totalData.length / parseInt(perPage, 10)),
     currPage,
-    perPage
+    10
   );
   useEffect(() => {
     if (prevPage.current == null) {
@@ -24,10 +24,13 @@ const usePagination = (totalData, perPage, startPage = 1) => {
   }, [currPage]);
   useEffect(() => (prevPage.current = currPage));
   const dataToShow = totalData.slice(
-    (currPage - 1) * perPage,
-    (currPage - 1) * perPage + perPage
+    (currPage - 1) * parseInt(perPage, 10),
+    (currPage - 1) * parseInt(perPage, 10) + parseInt(perPage, 10)
   );
-  const canMoveForwards = totalData.length > (currPage - 1) * perPage + perPage;
+
+  const canMoveForwards =
+    totalData.length >
+    (currPage - 1) * parseInt(perPage, 10) + parseInt(perPage, 10);
   const canMoveBackwards = (currPage - 1) * perPage >= perPage;
   const setPageForward = () =>
     setCurrPage((curr) => (canMoveForwards ? curr + 1 : curr));

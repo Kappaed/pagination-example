@@ -10,8 +10,10 @@ const formPagesArray = (totalPages, currentPage, pagesToShow) => {
   const beforeCurr = Math.floor(pagesToShow / 2);
   const afterCurr = Math.ceil(pagesToShow / 2) - 1;
 
-  console.log(totalPages, pagesToShow, afterCurr);
-  if (currentPage <= beforeCurr) {
+  if (pagesToShow > totalPages) {
+    startIndex = 1;
+    endIndex = totalPages;
+  } else if (currentPage <= beforeCurr) {
     startIndex = 1;
     endIndex = pagesToShow;
   } else if (currentPage + afterCurr >= totalPages) {
