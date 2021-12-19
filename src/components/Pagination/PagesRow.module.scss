@@ -1,0 +1,10 @@
+@import "./PageActions.module.scss";
+
+.pagesRow {
+  display: flex;
+  justify-content: center;
+}
+
+.selected {
+  background: orange;
+}

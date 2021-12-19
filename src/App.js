@@ -5,10 +5,11 @@ import usePagination from "./hooks/usePagination";
 import SummaryList from "./components/Summary/SummaryList";
 import Pagination from "./components/Pagination";
 import { useRef, useState, useEffect } from "react";
-
+import PagesRow from "./components/Pagination/PagesRow";
 function App() {
   const isMount = useRef(false);
   const [showDirection, setShowDirection] = useState(false);
+
   const {
     currPage,
     dataToShow,
@@ -17,9 +18,10 @@ function App() {
     setPageForward,
     canMoveBackwards,
     setInputPage,
+    pagesArray,
     isForward,
-  } = usePagination(tableData, 10, 0);
-  console.log(isForward);
+  } = usePagination(tableData, 10);
+
   useEffect(() => {
     if (!isMount.current) {
       isMount.current = true;
@@ -55,9 +57,15 @@ function App() {
         backward={{ canMoveBackwards, setPageBackward }}
         onInputChange={setInputPage}
       />
+
       <div className="middle-align">
         pages: {`0 pages to ${tableData.length / 10 - 1}`}
       </div>
+      <PagesRow
+        onPageClick={setInputPage}
+        pages={pagesArray}
+        currPage={currPage}
+      />
     </div>
   );
 }

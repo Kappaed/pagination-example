@@ -1,9 +1,15 @@
 import { useState, useRef, useEffect } from "react";
+import formPagesArray from "../components/Pagination/formPagesArray";
 
-const usePagination = (totalData, perPage, startPage = 0) => {
+const usePagination = (totalData, perPage, startPage = 1) => {
   const [currPage, setCurrPage] = useState(startPage);
   const [isForward, setIsForward] = useState(null);
   const prevPage = useRef(null);
+  const pagesArray = formPagesArray(
+    Math.ceil(totalData.length / perPage),
+    currPage,
+    perPage
+  );
   useEffect(() => {
     if (prevPage.current == null) {
       return;
@@ -17,30 +23,26 @@ const usePagination = (totalData, perPage, startPage = 0) => {
     }
   }, [currPage]);
   useEffect(() => (prevPage.current = currPage));
-
   const dataToShow = totalData.slice(
-    currPage * perPage,
-    currPage * perPage + perPage
+    (currPage - 1) * perPage,
+    (currPage - 1) * perPage + perPage
   );
-  const canMoveForwards = totalData.length > currPage * perPage + perPage;
-  const canMoveBackwards = currPage * perPage >= perPage;
+  const canMoveForwards = totalData.length > (currPage - 1) * perPage + perPage;
+  const canMoveBackwards = (currPage - 1) * perPage >= perPage;
   const setPageForward = () =>
     setCurrPage((curr) => (canMoveForwards ? curr + 1 : curr));
   const setPageBackward = () =>
     setCurrPage((curr) => (canMoveBackwards ? curr - 1 : curr));
 
   const setInputPage = (value) => {
-    let intValue = parseInt(value, 10);
-    if (intValue < 0) {
-      setCurrPage(0);
-    } else if (isNaN(intValue)) {
+    let intValue = value === "" ? 0 : parseInt(value, 10);
+    if (isNaN(intValue)) {
       setCurrPage("");
     } else {
       setCurrPage(intValue);
     }
   };
 
-  console.log(isForward);
   return {
     currPage,
     dataToShow,
@@ -49,6 +51,7 @@ const usePagination = (totalData, perPage, startPage = 0) => {
     setPageBackward,
     setPageForward,
     setInputPage,
+    pagesArray,
     isForward,
   };
 };
