@@ -1,15 +1,28 @@
 import styled from "./index.module.scss";
 const Pagination = (props) => {
   return (
-    <div class={styled.actions}>
-      <button className={styled.actions__button}>Left</button>
+    <div className={styled.actions}>
+      <button
+        className={styled.actions__button}
+        onClick={props.backward.setPageBackward}
+        disabled={!props.backward.canMoveBackwards}
+      >
+        Left
+      </button>
       <input
         name="page-number"
         id="page-number"
-        // placeholder="Available numbers per page"
+        value={props.current}
+        onChange={(event) => props.onInputChange(event.target.value)}
         className={styled.actions__input}
       />
-      <button className={styled.actions__button}>Right</button>
+      <button
+        className={styled.actions__button}
+        onClick={props.forward.setPageForward}
+        disabled={!props.forward.canMoveForwards}
+      >
+        Right
+      </button>
     </div>
   );
 };

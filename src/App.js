@@ -1,17 +1,32 @@
 import "./App.scss";
 import Container from "./components/UI/Container";
 import tableData from "./mock-data";
-import Item from "./components/Summary/Item";
+import usePagination from "./hooks/usePagination";
 import SummaryList from "./components/Summary/SummaryList";
 import Pagination from "./components/Pagination";
 
 function App() {
+  const {
+    currPage,
+    dataToShow,
+    canMoveForwards,
+    setPageBackward,
+    setPageForward,
+    canMoveBackwards,
+    setInputPage,
+  } = usePagination(tableData, 10, 0);
+  console.log(currPage);
   return (
     <div className="App">
       <Container>
-        <SummaryList list={tableData} />
+        <SummaryList list={dataToShow} />
       </Container>
-      <Pagination />
+      <Pagination
+        current={currPage}
+        forward={{ canMoveForwards, setPageForward }}
+        backward={{ canMoveBackwards, setPageBackward }}
+        onInputChange={setInputPage}
+      />
     </div>
   );
 }
